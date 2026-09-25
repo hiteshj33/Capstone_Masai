@@ -1,0 +1,63 @@
+
+== SELECT/WHERE - under GBP 15 ==
+SELECT title, price_gbp FROM books WHERE price_gbp < 15;
+                                 title  price_gbp
+That Darkness (Gardiner and Renner #1)      13.92
+  Tastes Like Fear (DI Marnie Rome #3)      10.69
+            Hide Away (Eve Duncan #20)      11.84
+                     Playing with Fire      13.71
+                     The Girl You Lost      12.29
+
+== ORDER BY/LIMIT - top 10 priciest ==
+SELECT title, price_gbp FROM books ORDER BY price_gbp DESC LIMIT 10;
+                                                                 title  price_gbp
+                                         Boar Island (Anna Pigeon #19)      59.48
+The No. 1 Ladies' Detective Agency (No. 1 Ladies' Detective Agency #1)      57.70
+                                      A Year in Provence (Provence #1)      56.88
+                                                   The Past Never Ends      56.50
+                                      The Last Painting of Sara de Vos      55.55
+                               A Flight of Arrows (The Pathfinders #2)      55.53
+                 Murder at the 42nd Street Library (Raymond Ambler #1)      54.36
+                                        The Last Mile (Amos Decker #2)      54.21
+                                   1st to Die (Women's Murder Club #1)      53.98
+                                                    Tipping the Velvet      53.74
+
+== DISTINCT - categories ==
+SELECT DISTINCT category_name FROM categories ORDER BY category_name;
+     category_name
+Historical Fiction
+           Mystery
+            Travel
+
+== IN/BETWEEN - rated 4-5, GBP 20-40 ==
+SELECT title, rating, price_gbp FROM books WHERE rating IN (4,5) AND price_gbp BETWEEN 20 AND 40;
+                                                                                            title  rating  price_gbp
+                                                                 Poisonous (Max Revere Novels #3)       5      26.80
+                                                                                      Most Wanted       5      35.28
+                                                 Delivering the Truth (Quaker Midwife Mystery #1)       5      20.89
+                                                                The Silkworm (Cormoran Strike #2)       4      23.05
+                                                               Extreme Prey (Lucas Davenport #26)       4      25.40
+                                                             Blood Defense (Samantha Brinkman #1)       4      20.30
+                              Vagabonding: An Uncommon Guide to the Art of Long-Term World Travel       4      36.94
+                                                                             Under the Tuscan Sun       4      37.33
+The Road to Little Dribbling: Adventures of an American in Britain (Notes From a Small Island #2)       4      23.21
+                                                                            The House by the Lake       4      36.95
+
+== JOIN - top-rated per category ==
+SELECT c.category_name, b.title, b.rating, b.price_gbp
+    FROM books b JOIN categories c ON b.category_id = c.category_id
+    WHERE b.rating = (SELECT MAX(b2.rating) FROM books b2 WHERE b2.category_id = b.category_id)
+    ORDER BY c.category_name, b.price_gbp;
+     category_name                                             title  rating  price_gbp
+Historical Fiction   World Without End (The Pillars of the Earth #2)       5      32.97
+Historical Fiction                            The Invention of Wings       5      37.34
+Historical Fiction   Glory over Everything: Beyond The Kitchen House       5      45.84
+Historical Fiction The Guernsey Literary and Potato Peel Pie Society       5      49.53
+Historical Fiction                  The Last Painting of Sara de Vos       5      55.55
+           Mystery                                 Playing with Fire       5      13.71
+           Mystery         The Cuckoo's Calling (Cormoran Strike #1)       5      19.21
+           Mystery                              In a Dark, Dark Wood       5      19.63
+           Mystery  Delivering the Truth (Quaker Midwife Mystery #1)       5      20.89
+           Mystery                  Poisonous (Max Revere Novels #3)       5      26.80
+
+pd.read_sql JOIN == pd.merge-only JOIN? True
