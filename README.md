@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Capstone_Masai
 =======
@@ -69,3 +70,6 @@ README.
 History includes a feature branch, committed to twice, merged back into `main` —
 `git log --graph --all`.
 >>>>>>> 3f08314 (support_assistant: RAG pipeline (ChromaDB + LangGraph + FastAPI), root README)
+=======
+# Capstone_Masai
+>>>>>>> 6996db25d6ab0b1f854815c0ae25bafb8541e73a
